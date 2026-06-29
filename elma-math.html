@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>עלמא לומדת מתמטיקה ⭐</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --purple: #7C3AED;
+  --pink: #EC4899;
+  --yellow: #FBBF24;
+  --green: #10B981;
+  --blue: #3B82F6;
+  --red: #EF4444;
+  --bg: #FDF4FF;
+}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  direction: rtl;
+}
+
+/* ===== SCREENS ===== */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ===== HEADER ===== */
+#header {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+#header h1 { font-size: 1.3rem; }
+#stars-display { font-size: 1.1rem; }
+
+/* ===== HOME ===== */
+#home { padding: 30px 20px; max-width: 500px; margin: 0 auto; }
+.welcome-card {
+  background: white;
+  border-radius: 24px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(124,58,237,0.15);
+  margin-bottom: 24px;
+}
+.welcome-card h2 { font-size: 1.8rem; color: var(--purple); margin-bottom: 8px; }
+.welcome-card p { color: #6B7280; font-size: 1rem; }
+.emoji-big { font-size: 3rem; margin-bottom: 10px; }
+
+.mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 18px 22px;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 14px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-align: right;
+  color: white;
+}
+.mode-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+.mode-btn .icon { font-size: 2rem; }
+.mode-btn .info { flex:1; }
+.mode-btn .info small { display:block; font-weight:normal; font-size:0.8rem; opacity:0.9; }
+.btn-table { background: linear-gradient(135deg, #3B82F6, #06B6D4); }
+.btn-mult  { background: linear-gradient(135deg, #10B981, #059669); }
+.btn-div   { background: linear-gradient(135deg, #F59E0B, #EF4444); }
+
+/* ===== EXERCISE SCREEN ===== */
+#exercise { padding: 20px; max-width: 500px; margin: 0 auto; }
+.ex-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  margin-bottom: 16px;
+}
+
+/* progress bar */
+.progress-bar {
+  background: #E5E7EB;
+  border-radius: 99px;
+  height: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--purple), var(--pink));
+  border-radius: 99px;
+  transition: width 0.4s;
+}
+
+.question-label { color: #9CA3AF; font-size: 0.85rem; margin-bottom: 8px; }
+.question-text {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #1F2937;
+  margin-bottom: 22px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* answer input */
+.answer-area { display: flex; gap: 10px; align-items: center; }
+#answer-input {
+  flex: 1;
+  font-size: 1.6rem;
+  padding: 14px 18px;
+  border: 3px solid #E5E7EB;
+  border-radius: 14px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+  direction: ltr;
+}
+#answer-input:focus { border-color: var(--purple); }
+#answer-input.correct { border-color: var(--green); background: #ECFDF5; }
+#answer-input.wrong   { border-color: var(--red);   background: #FEF2F2; }
+
+#submit-btn {
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+#submit-btn:hover { background: #6D28D9; transform: scale(1.05); }
+
+/* feedback */
+#feedback-box {
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  min-height: 56px;
+  transition: all 0.3s;
+}
+.fb-correct { background: #ECFDF5; color: #065F46; border: 2px solid #6EE7B7; }
+.fb-wrong   { background: #FEF2F2; color: #991B1B; border: 2px solid #FCA5A5; }
+.fb-hint    { background: #EFF6FF; color: #1E3A8A; border: 2px solid #BFDBFE; }
+
+/* hint area for long ops */
+.hint-steps {
+  background: #F8F0FF;
+  border: 2px dashed #C4B5FD;
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 14px;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: #4C1D95;
+  display: none;
+}
+.hint-steps.visible { display:block; }
+
+.step-row { display:flex; align-items:center; gap:8px; }
+.step-num {
+  background: var(--purple);
+  color: white;
+  border-radius: 50%;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+.step-done { opacity: 0.45; text-decoration: line-through; }
+
+#next-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 14px;
+  display: none;
+  font-weight: bold;
+  transition: transform 0.15s;
+}
+#next-btn:hover { transform: scale(1.02); }
+
+/* hint button */
+#hint-btn {
+  width: 100%;
+  background: white;
+  color: var(--purple);
+  border: 2px solid var(--purple);
+  border-radius: 14px;
+  padding: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 10px;
+  display: none;
+  transition: background 0.2s;
+}
+#hint-btn:hover { background: #F5F3FF; }
+
+/* ===== MULTIPLICATION TABLE SCREEN ===== */
+#table-screen { padding: 20px; max-width: 520px; margin: 0 auto; }
+.table-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
+}
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.15s;
+  user-select: none;
+}
+.cell:hover { transform: scale(1.12); }
+.cell-header { background: var(--purple); color: white; font-size: 0.7rem; }
+.cell-val { background: #F3E8FF; color: #5B21B6; }
+.cell-val:hover { background: #DDD6FE; }
+.cell-highlight { background: #FCD34D !important; color: #92400E !important; animation: pop 0.3s; }
+@keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
+
+.table-info {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  text-align: center;
+  color: #374151;
+  font-size: 1rem;
+}
+
+/* ===== CELEBRATION ===== */
+#celebration {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+#celebration.show { display: flex; }
+.cel-card {
+  background: white;
+  border-radius: 28px;
+  padding: 40px;
+  text-align: center;
+  max-width: 340px;
+  animation: zoomIn 0.4s;
+}
+@keyframes zoomIn { from{transform:scale(0.6);opacity:0} to{transform:scale(1);opacity:1} }
+.cel-emoji { font-size: 4rem; margin-bottom: 12px; }
+.cel-card h2 { font-size: 1.8rem; color: var(--purple); margin-bottom: 8px; }
+.cel-card p  { color: #6B7280; margin-bottom: 20px; }
+.cel-btn {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* ===== BACK BTN ===== */
+.back-btn {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  border-radius: 10px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* ===== CONFETTI ===== */
+.confetti-piece {
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  animation: fall linear forwards;
+  z-index: 2000;
+  pointer-events: none;
+}
+@keyframes fall {
+  0%  { transform: translateY(-20px) rotate(0deg); opacity:1; }
+  100%{ transform: translateY(110vh) rotate(720deg); opacity:0; }
+}
+
+/* ===== LONG OPS DISPLAY ===== */
+.long-display {
+  font-family: monospace;
+  font-size: 1.6rem;
+  background: #F9FAFB;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+  text-align: center;
+  line-height: 1.7;
+  color: #1F2937;
+  border: 2px solid #E5E7EB;
+}
+.long-display .op-line { color: #7C3AED; font-weight:bold; }
+.long-display .div-line { border-bottom: 2px solid #374151; margin: 4px 0; }
+
+/* step input for long ops */
+#step-input-area { display:none; margin-top:14px; }
+.step-q { font-size:1rem; color:#374151; margin-bottom:8px; font-weight:bold; }
+#step-input {
+  font-size:1.4rem;
+  padding:10px 16px;
+  border:3px solid #E5E7EB;
+  border-radius:12px;
+  width:100%;
+  text-align:center;
+  outline:none;
+  direction:ltr;
+}
+#step-input:focus { border-color:var(--purple); }
+#step-submit {
+  margin-top:10px;
+  background:var(--purple);
+  color:white;
+  border:none;
+  border-radius:12px;
+  padding:12px;
+  font-size:1rem;
+  cursor:pointer;
+  width:100%;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <button class="back-btn" id="back-btn" onclick="goHome()" style="display:none">← בית</button>
+  <h1 id="header-title">⭐ עלמא לומדת מתמטיקה</h1>
+  <div id="stars-display">⭐ <span id="star-count">0</span></div>
+</div>
+
+<!-- HOME SCREEN -->
+<div id="home" class="screen active">
+  <div class="welcome-card">
+    <div class="emoji-big">🌟</div>
+    <h2>שלום עלמא!</h2>
+    <p>בחרי מה תרצי לתרגל היום</p>
+  </div>
+
+  <button class="mode-btn btn-table" onclick="startMode('table')">
+    <span class="icon">🔢</span>
+    <div class="info">
+      לוח הכפל
+      <small>לחצי על כל תא ולמדי את הכפל!</small>
+    </div>
+  </button>
+
+  <button class="mode-btn btn-mult" onclick="startMode('mult')">
+    <span class="icon">✖️</span>
+    <div class="info">
+      כפל ארוך
+      <small>תרגול שלב אחר שלב עם הדרכה</small>
+    </div>
+  </button>
+
+  <button class="mode-btn btn-div" onclick="startMode('div')">
+    <span class="icon">➗</span>
+    <div class="info">
+      חילוק ארוך
+      <small>תרגול שלב אחר שלב עם הדרכה</small>
+    </div>
+  </button>
+</div>
+
+<!-- TABLE SCREEN -->
+<div id="table-screen" class="screen">
+  <div class="table-info" id="table-info" style="margin-bottom:14px">
+    לחצי על כל תא כדי לראות את חשבון הכפל! 👇
+  </div>
+  <div class="table-grid" id="table-grid"></div>
+</div>
+
+<!-- EXERCISE SCREEN -->
+<div id="exercise" class="screen">
+  <div class="ex-card">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question-label" id="q-label">שאלה 1 מתוך 10</div>
+    <div id="question-display"></div>
+
+    <!-- simple answer -->
+    <div class="answer-area" id="simple-answer-area">
+      <input type="number" id="answer-input" placeholder="תשובה..." autocomplete="off">
+      <button id="submit-btn" onclick="checkAnswer()">✓</button>
+    </div>
+
+    <!-- step-by-step for long ops -->
+    <div id="step-input-area">
+      <div class="step-q" id="step-q-text"></div>
+      <input type="number" id="step-input" placeholder="..." autocomplete="off">
+      <button id="step-submit" onclick="checkStep()">בדקי ✓</button>
+    </div>
+
+    <div id="feedback-box" style="margin-top:14px;display:none"></div>
+    <div class="hint-steps" id="hint-steps"></div>
+    <button id="hint-btn" onclick="showHint()">💡 רמז - הראי לי איך לפתור</button>
+    <button id="next-btn" onclick="nextQuestion()">השאלה הבאה ➜</button>
+  </div>
+</div>
+
+<!-- CELEBRATION -->
+<div id="celebration">
+  <div class="cel-card">
+    <div class="cel-emoji" id="cel-emoji">🎉</div>
+    <h2 id="cel-title">כל הכבוד!</h2>
+    <p id="cel-msg">סיימת את האימון!</p>
+    <button class="cel-btn" onclick="closeCelebration()">המשך לתרגל 💪</button>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+let stars = 0;
+let mode = '';
+let questions = [];
+let currentQ = 0;
+let wrongAttempts = 0;
+let currentStep = 0;   // for long ops step-by-step
+let stepData = null;   // holds info about current long op
+
+// ===== UTILS =====
+function rand(min, max) { return Math.floor(Math.random()*(max-min+1))+min; }
+function setStars(n) { stars = n; document.getElementById('star-count').textContent = n; }
+function addStars(n) { setStars(stars + n); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const backBtn = document.getElementById('back-btn');
+  backBtn.style.display = id === 'home' ? 'none' : 'inline-block';
+}
+
+function goHome() {
+  mode = '';
+  document.getElementById('header-title').textContent = '⭐ עלמא לומדת מתמטיקה';
+  showScreen('home');
+}
+
+// ===== CONFETTI =====
+function launchConfetti(count=40) {
+  const colors = ['#7C3AED','#EC4899','#FBBF24','#10B981','#3B82F6','#F87171'];
+  for(let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = rand(0,100)+'vw';
+    el.style.top = '-20px';
+    el.style.background = colors[rand(0,colors.length-1)];
+    el.style.animationDuration = rand(1200,2200)+'ms';
+    el.style.animationDelay = rand(0,600)+'ms';
+    el.style.width = el.style.height = rand(6,14)+'px';
+    document.body.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  }
+}
+
+// ===== CELEBRATION =====
+function celebrate(title, msg, emoji='🎉') {
+  document.getElementById('cel-emoji').textContent = emoji;
+  document.getElementById('cel-title').textContent = title;
+  document.getElementById('cel-msg').textContent = msg;
+  document.getElementById('celebration').classList.add('show');
+  launchConfetti();
+}
+function closeCelebration() {
+  document.getElementById('celebration').classList.remove('show');
+}
+
+// ===== MULTIPLICATION TABLE SCREEN =====
+function startMode(m) {
+  mode = m;
+  if(m === 'table') {
+    document.getElementById('header-title').textContent = '🔢 לוח הכפל';
+    buildTable();
+    showScreen('table-screen');
+    return;
+  }
+  document.getElementById('header-title').textContent = m==='mult' ? '✖️ כפל ארוך' : '➗ חילוק ארוך';
+  generateQuestions(m);
+  currentQ = 0;
+  showQuestion();
+  showScreen('exercise');
+}
+
+function buildTable() {
+  const grid = document.getElementById('table-grid');
+  grid.innerHTML = '';
+  // header row: empty + 1-10
+  const empty = document.createElement('div');
+  empty.className = 'cell cell-header';
+  empty.textContent = '×';
+  grid.appendChild(empty);
+  for(let i=1;i<=10;i++){
+    const h = document.createElement('div');
+    h.className = 'cell cell-header';
+    h.textContent = i;
+    grid.appendChild(h);
+  }
+  // rows 1-10
+  for(let r=1;r<=10;r++){
+    const rh = document.createElement('div');
+    rh.className = 'cell cell-header';
+    rh.textContent = r;
+    grid.appendChild(rh);
+    for(let c=1;c<=10;c++){
+      const cell = document.createElement('div');
+      cell.className = 'cell cell-val';
+      cell.textContent = r*c;
+      cell.dataset.r = r; cell.dataset.c = c;
+      cell.onclick = () => highlightCell(cell, r, c);
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function highlightCell(cell, r, c) {
+  document.querySelectorAll('.cell-highlight').forEach(el=>el.classList.remove('cell-highlight'));
+  // highlight row and column headers + this cell
+  document.querySelectorAll('.cell-val').forEach(el=>{
+    if(el.dataset.r==r || el.dataset.c==c) el.classList.add('cell-highlight');
+  });
+  cell.classList.add('cell-highlight');
+  document.getElementById('table-info').textContent = `${r} × ${c} = ${r*c}  👆 אפשר לראות את כל שורת ${r} ועמודת ${c}!`;
+}
+
+// ===== GENERATE QUESTIONS =====
+function generateQuestions(m) {
+  questions = [];
+  if(m === 'mult') {
+    for(let i=0;i<10;i++){
+      const a = rand(12,99);
+      const b = rand(2,9);
+      questions.push({type:'mult', a, b, answer: a*b});
+    }
+  } else {
+    for(let i=0;i<10;i++){
+      const b = rand(2,9);
+      const ans = rand(12,99);
+      const a = b * ans;
+      questions.push({type:'div', a, b, answer: ans});
+    }
+  }
+}
+
+// ===== SHOW QUESTION =====
+function showQuestion() {
+  wrongAttempts = 0;
+  currentStep = 0;
+  stepData = null;
+
+  const q = questions[currentQ];
+  const total = questions.length;
+
+  document.getElementById('q-label').textContent = `שאלה ${currentQ+1} מתוך ${total}`;
+  document.getElementById('progress-fill').style.width = ((currentQ/total)*100)+'%';
+
+  // Reset UI
+  const feedbackBox = document.getElementById('feedback-box');
+  feedbackBox.style.display = 'none';
+  feedbackBox.className = '';
+  feedbackBox.textContent = '';
+
+  const hintSteps = document.getElementById('hint-steps');
+  hintSteps.innerHTML = '';
+  hintSteps.classList.remove('visible');
+
+  document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('hint-btn').style.display = 'none';
+  document.getElementById('step-input-area').style.display = 'none';
+  document.getElementById('simple-answer-area').style.display = 'flex';
+
+  const input = document.getElementById('answer-input');
+  input.value = '';
+  input.className = '';
+  input.disabled = false;
+  input.focus();
+
+  // Display question
+  const display = document.getElementById('question-display');
+  if(q.type === 'mult') {
+    display.innerHTML = `<div class="long-display">
+      <div>${q.a}</div>
+      <div class="op-line">× ${q.b}</div>
+      <div class="div-line" style="border-bottom:3px solid #374151;margin:6px 0"></div>
+      <div style="color:#9CA3AF">?</div>
+    </div>`;
+  } else {
+    display.innerHTML = `<div class="long-display">
+      ${q.a} ÷ ${q.b} = <span style="color:#9CA3AF">?</span>
+    </div>`;
+  }
+  document.getElementById('submit-btn').style.display = 'inline-flex';
+  document.getElementById('submit-btn').textContent = '✓';
+}
+
+// ===== CHECK ANSWER =====
+function checkAnswer() {
+  const q = questions[currentQ];
+  const input = document.getElementById('answer-input');
+  const val = parseInt(input.value);
+  if(isNaN(val)) return;
+
+  const feedbackBox = document.getElementById('feedback-box');
+  feedbackBox.style.display = 'block';
+
+  if(val === q.answer) {
+    input.className = 'correct';
+    input.disabled = true;
+    const earned = wrongAttempts === 0 ? 3 : wrongAttempts === 1 ? 2 : 1;
+    addStars(earned);
+    feedbackBox.className = 'fb-correct';
+    const starsText = earned===3?'⭐⭐⭐ מושלם!':earned===2?'⭐⭐ יפה מאוד!':'⭐ כל הכבוד!';
+    feedbackBox.textContent = `✅ נכון! ${q.answer} זו התשובה הנכונה! ${starsText}`;
+    document.getElementById('next-btn').style.display = 'block';
+    document.getElementById('hint-btn').style.display = 'none';
+    document.getElementById('hint-steps').classList.remove('visible');
+    document.getElementById('submit-btn').style.display = 'none';
+    if(currentQ === questions.length-1) {
+      setTimeout(()=>celebrate('יאי! סיימת! 🎊', `צברת ${stars} כוכבים. את מדהימה, עלמא!`, '🏆'), 600);
+    }
+  } else {
+    wrongAttempts++;
+    input.className = 'wrong';
+    input.value = '';
+    feedbackBox.className = 'fb-wrong';
+
+    if(wrongAttempts === 1) {
+      feedbackBox.textContent = `❌ לא בדיוק... נסי שוב! רמז: ${q.type==='mult'?`${q.a} × ${q.b}`:`${q.a} ÷ ${q.b}`}`;
+      document.getElementById('hint-btn').style.display = 'block';
+    } else if(wrongAttempts === 2) {
+      feedbackBox.textContent = `❌ נסי עוד פעם! רמז: התשובה בין ${q.answer-10} ל-${q.answer+10}`;
+      document.getElementById('hint-btn').style.display = 'block';
+    } else {
+      feedbackBox.className = 'fb-hint';
+      feedbackBox.textContent = `💡 התשובה היא ${q.answer}. לא נורא! בואי נבין למה ↓`;
+      showHint();
+      input.disabled = true;
+      document.getElementById('submit-btn').style.display = 'none';
+      document.getElementById('next-btn').style.display = 'block';
+    }
+    setTimeout(()=>{ if(!input.disabled) input.focus(); }, 100);
+  }
+}
+
+// Enter key support
+document.getElementById('answer-input').addEventListener('keydown', e => {
+  if(e.key==='Enter') checkAnswer();
+});
+document.getElementById('step-input').addEventListener('keydown', e => {
+  if(e.key==='Enter') checkStep();
+});
+
+// ===== HINT =====
+function showHint() {
+  const q = questions[currentQ];
+  const hintSteps = document.getElementById('hint-steps');
+  hintSteps.classList.add('visible');
+  hintSteps.innerHTML = '';
+
+  if(q.type === 'mult') {
+    buildMultHint(q, hintSteps);
+  } else {
+    buildDivHint(q, hintSteps);
+  }
+}
+
+function buildMultHint(q, container) {
+  // e.g. 47 × 6
+  // Step 1: ones digit * b
+  // Step 2: tens digit * b, add carry
+  const a = q.a, b = q.b;
+  const ones = a % 10;
+  const tens = Math.floor(a / 10);
+  const step1 = ones * b;
+  const carry = Math.floor(step1 / 10);
+  const ones_result = step1 % 10;
+  const step2 = tens * b + carry;
+
+  const steps = [
+    `שלב 1: ספרות האחדות → ${ones} × ${b} = ${step1} → כותבים ${ones_result}${carry>0?`, נושאים ${carry}`:''}`,
+    `שלב 2: ספרות העשרות → ${tens} × ${b} = ${tens*b}${carry>0?` + ${carry} (נישא) = ${step2}`:''}`,
+    `תשובה סופית: ${step2}${ones_result} = ${q.answer} ✓`
+  ];
+  steps.forEach((s,i)=>{
+    const div = document.createElement('div');
+    div.className = 'step-row';
+    div.style.marginBottom = '8px';
+    div.innerHTML = `<div class="step-num">${i+1}</div><div>${s}</div>`;
+    container.appendChild(div);
+  });
+}
+
+function buildDivHint(q, container) {
+  const a = q.a, b = q.b, ans = q.answer;
+  const digits = ans.toString();
+  const steps = [];
+
+  if(digits.length === 2) {
+    const d1 = parseInt(digits[0]);
+    const d2 = parseInt(digits[1]);
+    const firstPart = Math.floor(a / 10); // tens of dividend or first digits
+    // actually let's explain properly
+    const dividendStr = a.toString();
+    const t = parseInt(dividendStr[0]);
+    const remainder1 = t % b;
+    const u = parseInt(dividendStr[1]);
+    const second = remainder1 * 10 + u;
+
+    steps.push(`שלב 1: כמה פעמים ${b} נכנס ב-${t}? → ${Math.floor(t/b)} פעמים (${Math.floor(t/b)} × ${b} = ${Math.floor(t/b)*b})`);
+    steps.push(`שלב 2: שארית → ${t} - ${Math.floor(t/b)*b} = ${remainder1} → מורידים את ${u} → ${second}`);
+    steps.push(`שלב 3: כמה פעמים ${b} נכנס ב-${second}? → ${Math.floor(second/b)} פעמים`);
+    steps.push(`תשובה: ${Math.floor(t/b)}${Math.floor(second/b)} = ${ans} ✓`);
+  } else {
+    steps.push(`${a} ÷ ${b} = ${ans}`);
+    steps.push(`בדיקה: ${ans} × ${b} = ${ans*b} ✓`);
+  }
+
+  steps.forEach((s,i)=>{
+    const div = document.createElement('div');
+    div.className = 'step-row';
+    div.style.marginBottom = '8px';
+    div.innerHTML = `<div class="step-num">${i+1}</div><div>${s}</div>`;
+    container.appendChild(div);
+  });
+}
+
+// ===== STEP (placeholder, unused now but ready) =====
+function checkStep() {}
+
+// ===== NEXT QUESTION =====
+function nextQuestion() {
+  if(currentQ < questions.length-1) {
+    currentQ++;
+    showQuestion();
+  } else {
+    celebrate('סיימת את כל השאלות! 🏆', `צברת ${stars} כוכבים. את גאון, עלמא!`, '🏆');
+  }
+}
+
+// ===== INIT =====
+showScreen('home');
+</script>
+</body>
+</html>
