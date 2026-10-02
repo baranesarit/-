@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="fonts.local.css">
+<style>
+:root{
+  --bg1:#2a0b5c; --bg2:#7a1fa2; --pink:#ff3d8b; --yel:#ffd23f; --tur:#21e6c1; --org:#ff8a00; --white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg1)}
+body{font-family:'Rubik',sans-serif;color:#fff;position:relative}
+
+/* ---------- background ---------- */
+#bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,#9b2fd0 0%,var(--bg1) 70%);animation:hue 36s linear both}
+@keyframes hue{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(200deg)}}
+#rays{position:absolute;left:50%;top:42%;width:3000px;height:3000px;margin:-1500px 0 0 -1500px;
+  background:repeating-conic-gradient(rgba(255,255,255,.09) 0deg 10deg,transparent 10deg 20deg);
+  animation:spin 24s linear infinite;border-radius:50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.conf{position:absolute;top:-80px;width:22px;height:34px;border-radius:4px;animation:fall linear infinite}
+@keyframes fall{from{transform:translateY(0) rotate(0)}to{transform:translateY(2100px) rotate(900deg)}}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+
+/* ---------- scenes ---------- */
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;animation:show var(--d) linear var(--s);text-align:center;padding:0 70px}
+@keyframes show{0%,100%{opacity:1}}
+.a{animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,1.6,.4,1)}
+@keyframes popIn{from{transform:scale(0) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes slamIn{0%{transform:scale(4);opacity:0}60%{transform:scale(.9);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes upIn{from{transform:translateY(240px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes rightIn{from{transform:translateX(1200px)}to{transform:translateX(0)}}
+@keyframes leftIn{from{transform:translateX(-1200px)}to{transform:translateX(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes wob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes zoomOut{from{transform:scale(1);opacity:1}to{transform:scale(2.5);opacity:0}}
+
+.h1{font-family:'Secular One';font-size:150px;line-height:1.05;text-shadow:0 10px 0 rgba(0,0,0,.25)}
+.h2{font-family:'Secular One';font-size:100px;line-height:1.1}
+.h3{font-size:62px;font-weight:700;line-height:1.3}
+.yel{color:var(--yel)} .pink{color:var(--pink)} .tur{color:var(--tur)}
+.pill{display:inline-block;background:#fff;color:var(--bg1);border-radius:999px;padding:18px 48px;font-weight:900;font-size:58px;box-shadow:0 12px 0 rgba(0,0,0,.25)}
+
+/* logo */
+.logo{display:flex;flex-direction:column;align-items:center}
+.logo svg{width:420px;height:auto;filter:drop-shadow(0 18px 0 rgba(0,0,0,.25))}
+.logo .name{font-family:'Secular One';font-size:170px;line-height:1;margin-top:10px;
+  background:linear-gradient(180deg,#fff 30%,var(--yel));-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 10px 0 rgba(0,0,0,.3))}
+.logo .tag{font-size:48px;font-weight:700;letter-spacing:2px;color:var(--tur);margin-top:8px}
+
+/* letters bounce */
+.letters span{display:inline-block;animation:popIn .5s cubic-bezier(.2,1.8,.4,1) both}
+
+/* holidays */
+.hol{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;animation:show .75s linear}
+.hol .emo{font-size:330px;line-height:1;animation:slamIn .35s ease-out both}
+.hol .t{font-family:'Secular One';font-size:140px;margin-top:30px;animation:upIn .3s cubic-bezier(.2,1.6,.4,1) both}
+.card-bg{position:absolute;width:900px;height:900px;border-radius:120px;top:400px;left:90px;transform:rotate(-6deg);animation:popIn .3s ease-out both}
+
+/* seasons */
+.seasons{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin:50px 0}
+.season{width:400px;height:330px;border-radius:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Secular One';font-size:76px;box-shadow:0 16px 0 rgba(0,0,0,.25)}
+.season b{font-size:150px;line-height:1.1;font-weight:400}
+
+/* stamp */
+.stamp{width:820px;height:820px;border-radius:50%;border:26px solid var(--yel);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle,#ff3d8b 0%,#c2185b 100%);box-shadow:0 0 0 16px #fff,0 30px 60px rgba(0,0,0,.4)}
+.stamp .check{font-size:220px;line-height:1;color:#fff}
+.stamp .l1{font-family:'Secular One';font-size:96px;line-height:1}
+.stamp .l2{font-family:'Secular One';font-size:120px;color:var(--yel);line-height:1.15}
+.stamp .l3{font-size:66px;font-weight:900}
+
+/* audiences */
+.chips{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;margin-top:60px}
+.chip{background:rgba(255,255,255,.14);border:5px solid #fff;border-radius:999px;padding:22px 50px;font-size:62px;font-weight:700}
+
+/* contact */
+.contact{margin-top:50px;width:940px;background:#fff;color:var(--bg1);border-radius:60px;padding:40px 50px;box-shadow:0 20px 0 rgba(0,0,0,.25)}
+.contact .row{white-space:nowrap;display:flex;align-items:center;justify-content:space-between;font-size:48px;font-weight:700;padding:14px 10px}
+.contact .row .num{white-space:nowrap;font-family:'Rubik';font-weight:900;font-size:64px;direction:ltr;color:#c2185b}
+.contact hr{border:0;border-top:4px dashed #ddd;margin:8px 0}
+.web{margin-top:40px;font-size:70px;font-weight:900;direction:ltr;color:var(--yel)}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div id="rays"></div>
+<div id="confetti"></div>
+
+<!-- logo SVG template -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="logoMark" viewBox="0 0 420 300">
+      <!-- road -->
+      <path d="M150 300 L195 140 L225 140 L270 300 Z" fill="#3b2a6b"/>
+      <path d="M207 290 L208 260 M208 235 L209 210 M209 190 L210 170 M210 155 L210 145" stroke="#ffd23f" stroke-width="8" stroke-linecap="round"/>
+      <!-- milestone stones -->
+      <path d="M40 270 Q30 170 95 150 Q160 135 165 210 L170 270 Z" fill="#21e6c1" stroke="#fff" stroke-width="8"/>
+      <path d="M255 270 L262 140 Q270 50 330 55 Q395 62 390 160 L385 270 Z" fill="#ff3d8b" stroke="#fff" stroke-width="8"/>
+      <!-- star -->
+      <path d="M322 95 l12 26 28 3 -21 19 6 28 -25 -14 -25 14 6 -28 -21 -19 28 -3z" fill="#ffd23f"/>
+      <!-- theatre mask on the small stone -->
+      <circle cx="102" cy="208" r="34" fill="#fff"/>
+      <circle cx="90" cy="200" r="6" fill="#2a0b5c"/><circle cx="114" cy="200" r="6" fill="#2a0b5c"/>
+      <path d="M86 216 Q102 234 118 216" stroke="#2a0b5c" stroke-width="6" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- SCENE 1: logo intro 0-4 -->
+<div class="scene" style="--s:0s;--d:4s">
+  <div class="logo a" style="animation-name:popIn;animation-duration:.8s;animation-delay:.2s">
+    <svg viewBox="0 0 420 300"><use href="#logoMark"/></svg>
+    <div class="name">אבני דרך</div>
+    <div class="tag">תוכן ישראלי מקורי</div>
+  </div>
+  <div class="h3 a" style="margin-top:70px;animation:upIn .6s cubic-bezier(.2,1.6,.4,1) 1.4s both">גאים להציג...</div>
+</div>
+
+<!-- SCENE 2: title 4-8.5 -->
+<div class="scene" style="--s:4s;--d:4.5s">
+  <div style="font-size:200px;animation:wob 1s ease-in-out 4s infinite both">🎭</div>
+  <div class="h1 letters" id="t1"></div>
+  <div class="h1 letters yel" id="t2"></div>
+  <div class="h3 a" style="margin-top:50px;animation:upIn .5s cubic-bezier(.2,1.6,.4,1) 6s both">שחקן אחד · במה אחת</div>
+  <div class="h3 a pink" style="background:#fff;border-radius:30px;padding:6px 40px;margin-top:20px;animation:popIn .5s cubic-bezier(.2,1.8,.4,1) 6.6s both">אינסוף חוויה!</div>
+</div>
+
+<!-- SCENE 3: holidays 8.5-15.5 -->
+<div class="scene" style="--s:8.5s;--d:1s">
+  <div class="h2 a" style="animation:slamIn .4s ease-out 8.5s both">מתאים</div>
+  <div class="h1 a yel" style="font-size:230px;animation:slamIn .4s ease-out 8.75s both">לכל חג!</div>
+</div>
+<div id="holidays"></div>
+
+<!-- SCENE 4: seasons 15.5-20 -->
+<div class="scene" style="--s:15.5s;--d:4.5s">
+  <div class="h2 a" style="animation:slamIn .4s ease-out 15.5s both">לכל עונה</div>
+  <div class="seasons">
+    <div class="season a" style="background:#ff8a00;animation:popIn .45s cubic-bezier(.2,1.8,.4,1) 15.9s both"><b>☀️</b>קיץ</div>
+    <div class="season a" style="background:#c0392b;animation:popIn .45s cubic-bezier(.2,1.8,.4,1) 16.15s both"><b>🍂</b>סתיו</div>
+    <div class="season a" style="background:#1e88e5;animation:popIn .45s cubic-bezier(.2,1.8,.4,1) 16.4s both"><b>❄️</b>חורף</div>
+    <div class="season a" style="background:#43a047;animation:popIn .45s cubic-bezier(.2,1.8,.4,1) 16.65s both"><b>🌸</b>אביב</div>
+  </div>
+  <div class="h1 a" style="animation:slamIn .45s ease-out 17.4s both">ולכל <span class="yel">השנה!</span></div>
+  <div class="h3 a tur" style="margin-top:20px;animation:upIn .5s cubic-bezier(.2,1.6,.4,1) 18s both">ימי שיא · אירועים · חגים</div>
+</div>
+
+<!-- SCENE 5: approved 20-25 -->
+<div class="scene" style="--s:20s;--d:5s">
+  <div class="h2 a" style="animation:upIn .5s cubic-bezier(.2,1.6,.4,1) 20s both">ספק מוכר ומאושר</div>
+  <div class="stamp a" style="margin-top:60px;animation:slamIn .55s ease-out 20.5s both">
+    <div class="check">✔</div>
+    <div class="l1">מאושר</div>
+    <div class="l2">בניטו-טק</div>
+    <div class="l3">(ספריות)</div>
+  </div>
+  <div class="pill a" style="margin-top:80px;animation:popIn .5s cubic-bezier(.2,1.8,.4,1) 21.8s both">📚 מושלם לספריות!</div>
+</div>
+
+<!-- SCENE 6: audiences 25-29 -->
+<div class="scene" style="--s:25s;--d:4s">
+  <div class="h1 a" style="animation:slamIn .45s ease-out 25s both">מגיעים <span class="yel">אליכם!</span></div>
+  <div class="h3 a" style="margin-top:20px;animation:upIn .5s cubic-bezier(.2,1.6,.4,1) 25.4s both">ממטולה ועד אילת</div>
+  <div class="chips">
+    <div class="chip a" style="animation:rightIn .45s cubic-bezier(.2,1.4,.4,1) 25.8s both">📚 ספריות</div>
+    <div class="chip a" style="animation:leftIn .45s cubic-bezier(.2,1.4,.4,1) 26s both">🏫 בתי ספר</div>
+    <div class="chip a" style="animation:rightIn .45s cubic-bezier(.2,1.4,.4,1) 26.2s both">🧸 גני ילדים</div>
+    <div class="chip a" style="animation:leftIn .45s cubic-bezier(.2,1.4,.4,1) 26.4s both">🏛️ רשויות ומתנ"סים</div>
+    <div class="chip a" style="animation:rightIn .45s cubic-bezier(.2,1.4,.4,1) 26.6s both">👨‍👩‍👧 אירועי קהילה</div>
+  </div>
+</div>
+
+<!-- SCENE 7: CTA 29-36 -->
+<div class="scene" style="--s:29s;--d:7.1s">
+  <div class="logo a" style="animation:popIn .7s cubic-bezier(.2,1.8,.4,1) 29s both">
+    <svg viewBox="0 0 420 300" style="width:320px"><use href="#logoMark"/></svg>
+    <div class="name" style="font-size:140px">אבני דרך</div>
+  </div>
+  <div class="h2 a yel" style="margin-top:30px;animation:pulse .5s ease-in-out 29.8s 12 both">הזמינו עכשיו! 🎉</div>
+  <div class="contact a" style="animation:upIn .6s cubic-bezier(.2,1.6,.4,1) 30.2s both">
+    <div class="row"><span>📞 מוקד הזמנות</span><span class="num">050-770-7896</span></div>
+    <hr>
+    <div class="row"><span>☎️ משרד</span><span class="num">053-958-6370</span></div>
+  </div>
+  <div class="web a" style="animation:popIn .5s cubic-bezier(.2,1.8,.4,1) 31s both">avnederech.co.il</div>
+</div>
+
+<div id="flashes"></div>
+
+<script>
+// split titles into bouncing letters
+function letters(id,text,start){
+  const el=document.getElementById(id);
+  [...text].forEach((c,i)=>{const s=document.createElement('span');s.textContent=c===' '?' ':c;
+    s.style.animationDelay=(start+i*0.06)+'s';el.appendChild(s);});
+}
+letters('t1','הצגות',4.3); letters('t2','שחקן יחיד',4.8);
+
+// holidays: 8 cards, 0.75s each from 9.5s
+const hols=[['🍎','ראש השנה','#ff3d8b'],['🌿','סוכות','#43a047'],['🕎','חנוכה','#1e88e5'],['🌳','ט"ו בשבט','#2e7d32'],
+            ['🤡','פורים','#ff8a00'],['🍷','פסח','#8e24aa'],['🇮🇱','יום העצמאות','#1565c0'],['🌾','שבועות','#f9a825']];
+const H=document.getElementById('holidays');
+hols.forEach((h,i)=>{
+  const s=9.5+i*0.75;
+  const d=document.createElement('div');d.className='hol';d.style.animationDelay=s+'s';
+  d.innerHTML=`<div class="card-bg" style="background:${h[2]};animation-delay:${s}s;transform:rotate(${i%2?6:-6}deg)"></div>
+    <div class="emo" style="position:relative;animation-delay:${s}s">${h[0]}</div>
+    <div class="t" style="position:relative;animation-delay:${s+0.08}s">${h[1]}</div>`;
+  H.appendChild(d);
+});
+
+// confetti (deterministic)
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const C=document.getElementById('confetti');const cols=['#ffd23f','#ff3d8b','#21e6c1','#fff','#ff8a00'];
+for(let i=0;i<55;i++){const c=document.createElement('div');c.className='conf';
+  c.style.left=(rnd()*1080)+'px';c.style.background=cols[i%cols.length];
+  const dur=3+rnd()*4;c.style.animationDuration=dur+'s';c.style.animationDelay=(-rnd()*dur)+'s';
+  c.style.opacity=.85;C.appendChild(c);}
+
+// white flashes on scene cuts
+const F=document.getElementById('flashes');
+[4,8.5,15.5,20,20.5,25,29].forEach(t=>{const f=document.createElement('div');f.style.cssText=
+  `position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;animation:fl .25s ease-out ${t}s forwards`;F.appendChild(f);});
+const st=document.createElement('style');st.textContent='@keyframes fl{from{opacity:.75}to{opacity:0}}';document.head.appendChild(st);
+
+window.seek=function(t){document.getAnimations().forEach(a=>{a.pause();a.currentTime=t*1000;});};
+</script>
+</body>
+</html>
