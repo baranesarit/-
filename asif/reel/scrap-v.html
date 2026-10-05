@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Asif scrapbook ad</title>
+<link rel="stylesheet" href="fonts/local.css">
+<style>
+  :root {
+    --kraft: #c9a27a; --kraft2: #b88c62; --paper: #fbf5ea; --ink: #2b1a12; --red: #e2362f; --rose: #ff4f8b;
+    --yellow: #ffe25a; --mint: #8fe3c8; --sky: #8cc8ff; --lilac: #c9a7ff; --orange: #ff9a3c; --choc: #3b1f14;
+    --serif: 'Frank Ruhl Libre', serif; --bubble: 'Rubik Bubbles', sans-serif; --tall: 'Karantina', sans-serif;
+    --hand: 'Playpen Sans Hebrew', sans-serif; --body: 'Rubik', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: var(--body); color: var(--ink); }
+  .scene { position: absolute; inset: -40px; overflow: hidden; box-shadow: 0 0 60px rgba(0,0,0,.5); }
+  .scene > .pad { position: absolute; left: 40px; top: 40px; width: 1080px; height: 1920px; }
+  .abs { position: absolute; }
+  .emo { font-family: 'Noto Color Emoji', sans-serif; font-weight: 400; }
+  .noise::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .kraft { background: radial-gradient(80% 80% at 30% 20%, #d4b089, var(--kraft) 60%, var(--kraft2)); }
+  .lined { background:
+      linear-gradient(90deg, transparent 990px, rgba(226,54,47,.55) 990px, rgba(226,54,47,.55) 994px, transparent 994px),
+      repeating-linear-gradient(180deg, transparent 0 58px, rgba(70,130,200,.35) 58px 60px), var(--paper); }
+  .grid { background:
+      repeating-linear-gradient(0deg, transparent 0 46px, rgba(70,130,200,.22) 46px 48px),
+      repeating-linear-gradient(90deg, transparent 0 46px, rgba(70,130,200,.22) 46px 48px), #fffdf6; }
+  .pinky { background: radial-gradient(70% 80% at 70% 30%, #ffe3ea, #ffc9d6); }
+
+  .torn { filter: drop-shadow(3px 6px 6px rgba(0,0,0,.28)); }
+  .torn > div { width: 100%; height: 100%; }
+  .tape { position: absolute; height: 54px; width: 190px; opacity: .88; box-shadow: 0 2px 4px rgba(0,0,0,.12);
+    clip-path: polygon(2% 0, 98% 4%, 100% 30%, 97% 55%, 100% 80%, 98% 100%, 3% 96%, 0 70%, 3% 45%, 0 18%); }
+  .tape.s1 { background: repeating-linear-gradient(45deg, #ff8fb1 0 14px, #ffc2d4 14px 28px); }
+  .tape.s2 { background: repeating-linear-gradient(90deg, #ffe25a 0 10px, #fff1a8 10px 20px); }
+  .tape.s3 { background: radial-gradient(circle, #fff 3px, transparent 4px) 0 0/18px 18px, #8fe3c8; }
+  .tape.s4 { background: repeating-linear-gradient(-45deg, #8cc8ff 0 12px, #d4ebff 12px 24px); }
+  .pol { position: absolute; background: #fff; padding: 18px 18px 74px; box-shadow: 4px 10px 22px rgba(0,0,0,.35); }
+  .pol img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .pol .cap { position: absolute; left: 0; right: 0; bottom: 12px; text-align: center; font: 800 40px var(--hand); color: var(--ink); }
+  .sticker { filter: drop-shadow(0 0 0 #fff) drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(4px 8px 8px rgba(0,0,0,.3)); }
+  .disc { border-radius: 50%; overflow: hidden; }
+  .disc img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .letter { display: inline-grid; place-items: center; padding: 0 .12em; margin: 0 .04em; line-height: 1.05; box-shadow: 3px 6px 10px rgba(0,0,0,.3); }
+  .label { display: inline-block; padding: 8px 26px 10px; font: 700 40px var(--body); letter-spacing: 3px; color: #fff; background: var(--ink); box-shadow: 2px 4px 8px rgba(0,0,0,.3);
+    text-shadow: 0 1px 0 rgba(255,255,255,.25); }
+  .stamp { display: inline-block; padding: 12px 34px; border: 7px solid var(--red); border-radius: 14px; color: var(--red); font: 900 62px var(--body); letter-spacing: 2px; opacity: .88;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.6'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .note { position: absolute; width: 400px; height: 380px; padding: 40px 30px; box-shadow: 4px 12px 20px rgba(0,0,0,.25); text-align: center; }
+  .doodle { position: absolute; overflow: visible; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .marker { font-family: var(--hand); font-weight: 800; }
+  .flash { position: absolute; inset: 0; background: #fff; z-index: 90; opacity: 0; }
+</style>
+</head>
+<body>
+<div id="stage"><div class="flash" id="flash"></div></div>
+<script>
+const stage = document.getElementById('stage');
+const SPEED = .85, T = 30 * SPEED, BEAT = .5;
+const SFX = [];   // [time, kind] collected for the soundtrack
+const h = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+const anim = (el, kf, start, dur, easing = 'ease-out', extra = {}) => el.animate(kf, { delay: start * 1000 * SPEED, duration: dur * 1000 * SPEED, fill: 'both', easing, ...extra });
+let seed = 21; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const R = (a, b) => a + rnd() * (b - a);
+const POP = 'cubic-bezier(.3,1.7,.5,1)', OUT = 'cubic-bezier(.16,1,.3,1)';
+const show = (el, t) => anim(el, [{ visibility: 'hidden' }, { visibility: 'visible' }], t, .001, 'linear');
+
+/* ---------- primitives ---------- */
+const tornClip = (jag = 2.2, edges = 'tb') => {
+  const pts = [], n = 22;
+  for (let i = 0; i <= n; i++) pts.push(`${(i / n) * 100}% ${edges.includes('t') ? R(0, jag) : 0}%`);
+  for (let i = 0; i <= 8; i++) pts.push(`${edges.includes('l') ? 100 - R(0, jag / 2) : 100}% ${(i / 8) * 100}%`);
+  for (let i = n; i >= 0; i--) pts.push(`${(i / n) * 100}% ${edges.includes('b') ? 100 - R(0, jag) : 100}%`);
+  for (let i = 8; i >= 0; i--) pts.push(`${edges.includes('l') ? R(0, jag / 2) : 0}% ${(i / 8) * 100}%`);
+  return `polygon(${pts.join(',')})`;
+};
+const torn = (x, y, w, hgt, bg, inner = '', rot = 0, jag = 4, edges = 'tbl', z = 1) =>
+  `<div class="abs torn" style="left:${x}px;top:${y}px;width:${w}px;height:${hgt}px;transform:rotate(${rot}deg);z-index:${z}"><div class="noise" style="position:relative;background:${bg};clip-path:${tornClip(jag, edges)};display:grid;place-items:center">${inner}</div></div>`;
+const tape = (x, y, rot, style = 's1', w = 190) => `<div class="tape ${style}" style="left:${x}px;top:${y}px;width:${w}px;transform:rotate(${rot}deg);z-index:6"></div>`;
+
+// slap: lands with squash and a little camera shake on the scene
+function slap(el, t, rot = 0, scene, kind = 'slap') {
+  anim(el, [
+    { transform: `scale(1.7) rotate(${rot + 14}deg)`, opacity: 0 },
+    { transform: `scale(.92, .88) rotate(${rot - 2}deg)`, opacity: 1, offset: .55 },
+    { transform: `scale(1.04) rotate(${rot + 1}deg)`, opacity: 1, offset: .8 },
+    { transform: `scale(1) rotate(${rot}deg)`, opacity: 1 }], t, .38, 'cubic-bezier(.5,0,.4,1)');
+  if (scene) shake(scene, t + .2);
+  SFX.push([t + .2, kind]);
+}
+function shake(scene, t, a = 7) {
+  anim(scene, [{ translate: '0 0' }, { translate: `${a}px ${-a}px`, offset: .2 }, { translate: `${-a}px ${a * .6}px`, offset: .45 }, { translate: `${a * .4}px 0`, offset: .7 }, { translate: '0 0' }], t, .22, 'linear', { composite: 'add' });
+}
+const popIn = (el, t, rot = 0, kind = 'pop') => { anim(el, [{ transform: `scale(0) rotate(${rot - 30}deg)`, opacity: 0 }, { transform: `scale(1.18) rotate(${rot + 6}deg)`, opacity: 1, offset: .6 }, { transform: `scale(1) rotate(${rot}deg)`, opacity: 1 }], t, .45, POP); SFX.push([t + .1, kind]); };
+const stampIn = (el, t, rot = -8, scene) => {
+  anim(el, [{ transform: `scale(3) rotate(${rot + 10}deg)`, opacity: 0 }, { transform: `scale(.95) rotate(${rot}deg)`, opacity: 1, offset: .7 }, { transform: `scale(1) rotate(${rot}deg)`, opacity: 1 }], t, .3, 'cubic-bezier(.6,0,.4,1)');
+  if (scene) shake(scene, t + .2, 10); SFX.push([t + .21, 'stamp']);
+};
+// stop-motion "boil": tiny stepped jitter
+const boil = (el, t, dur = 30, a = 2) => {
+  const kf = []; for (let i = 0; i < 4; i++) kf.push({ translate: `${R(-a, a)}px ${R(-a, a)}px`, rotate: `${R(-.8, .8)}deg`, easing: 'step-end' });
+  kf.push({ ...kf[0] });
+  anim(el, kf, t, .5, 'linear', { iterations: Math.ceil(dur / .5) });
+};
+// hand-drawn doodles
+const PATHS = {
+  star: 'M50 5 L61 38 L96 38 L68 59 L79 93 L50 72 L21 93 L32 59 L4 38 L39 38 Z',
+  heart: 'M50 88 C20 65 4 48 8 28 C12 10 36 6 50 26 C64 6 88 10 92 28 C96 48 80 65 50 88 Z',
+  circle: 'M60 8 C20 6 4 30 6 52 C8 80 40 94 70 88 C96 82 104 50 92 28 C84 14 66 6 40 12',
+  arrow: 'M8 80 C30 20 70 10 92 30 M92 30 L70 26 M92 30 L86 52',
+  squig: 'M4 50 C14 20 24 80 34 50 S54 20 64 50 S84 80 96 40',
+  under: 'M4 60 C30 40 60 70 96 46 M10 80 C40 64 70 86 94 70',
+  spark: 'M50 4 V30 M50 70 V96 M4 50 H30 M70 50 H96 M18 18 L34 34 M66 66 L82 82 M82 18 L66 34 M34 66 L18 82',
+  sparkle: 'M50 2 C54 38 62 46 98 50 C62 54 54 62 50 98 C46 62 38 54 2 50 C38 46 46 38 50 2 Z',
+};
+function doodle(parent, kind, x, y, size, color, t, rot = 0, sw = 6, fill = false, dur = .45) {
+  const svg = h(`<svg class="doodle" viewBox="0 0 100 100" style="left:${x}px;top:${y}px;width:${size}px;height:${size}px;transform:rotate(${rot}deg);z-index:7">
+    <path d="${PATHS[kind]}" pathLength="1" stroke="${color}" stroke-width="${sw}" stroke-dasharray="1 1" ${fill ? `fill="${color}" fill-opacity="0"` : ''}/></svg>`);
+  parent.appendChild(svg);
+  const p = svg.firstElementChild;
+  anim(p, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], t, dur, 'ease-in-out');
+  if (fill) anim(p, [{ fillOpacity: 0 }, { fillOpacity: 1 }], t + dur, .15, 'linear');
+  show(svg, t); boil(svg, t, 8, 1.5);
+  SFX.push([t, 'scribble']);
+  return svg;
+}
+// ransom-note letters
+const RANSOM = [
+  ['var(--yellow)', 'var(--ink)', 'var(--bubble)'], ['var(--ink)', '#fff', 'var(--serif)'], ['var(--rose)', '#fff', 'var(--tall)'],
+  ['#fff', 'var(--red)', 'var(--body)'], ['var(--mint)', 'var(--ink)', 'var(--hand)'], ['var(--sky)', 'var(--ink)', 'var(--serif)'],
+  ['var(--orange)', '#fff', 'var(--bubble)'], ['var(--lilac)', 'var(--ink)', 'var(--body)'],
+];
+function ransom(text, size, startIdx = 0) {
+  return [...text].map((ch, i) => {
+    if (ch === ' ') return `<span style="display:inline-block;width:.35em"></span>`;
+    const [bg, fg, ff] = RANSOM[(i + startIdx) % RANSOM.length];
+    const fs = size * R(.85, 1.1), w = ff.includes('tall') ? 700 : ff.includes('serif') || ff.includes('body') ? 900 : 800;
+    return `<span class="letter" style="background:${bg};color:${fg};font-family:${ff};font-weight:${w};font-size:${fs}px;transform:rotate(${R(-8, 8)}deg) translateY(${R(-10, 10)}px)">${ch}</span>`;
+  }).join('');
+}
+const slapLetters = (wrap, t, step, scene) => [...wrap.querySelectorAll('.letter')].forEach((l, i) => {
+  const base = l.style.transform; l.style.transform = '';
+  const rot = parseFloat(base.match(/rotate\(([-\d.]+)deg/)[1]), ty = parseFloat(base.match(/translateY\(([-\d.]+)px/)[1]);
+  anim(l, [{ transform: `translateY(${ty}px) scale(2) rotate(${rot + 20}deg)`, opacity: 0 }, { transform: `translateY(${ty}px) scale(.9) rotate(${rot}deg)`, opacity: 1, offset: .6 }, { transform: `translateY(${ty}px) rotate(${rot}deg)`, opacity: 1 }], t + i * step, .3, 'cubic-bezier(.5,0,.4,1)');
+  if (scene && i % 2 === 0) shake(scene, t + i * step + .18, 4);
+  SFX.push([t + i * step + .18, 'tap']);
+});
+
+/* ---------- scene helpers ---------- */
+let zc = 1;
+function addScene(start, bgClass, enter = 'right') {
+  const el = h(`<div class="scene" style="z-index:${zc++}"><div class="pad ${bgClass} noise"></div></div>`);
+  stage.insertBefore(el, document.getElementById('flash'));
+  show(el, start);
+  if (start > 0) {
+    const from = { right: 'translateX(105%) rotate(7deg)', left: 'translateX(-105%) rotate(-7deg)', up: 'translateY(105%) rotate(-5deg)', down: 'translateY(-105%) rotate(5deg)', spin: 'scale(.1) rotate(-200deg)' }[enter];
+    anim(el, [{ transform: from }, { transform: 'rotate(-1deg)', offset: .75 }, { transform: 'none' }], start, .55, 'cubic-bezier(.6,0,.3,1)');
+    SFX.push([start, 'whoosh']);
+  }
+  return el.firstElementChild;
+}
+const add = (p, html) => { const e = h(html); p.appendChild(e); return e; };
+const sceneOf = (pad) => pad.parentElement;
+
+/* ============ S0 · 0–4 logo ============ */
+{
+  const p = addScene(0, 'kraft');
+  const s = sceneOf(p);
+  add(p, torn(70, 560, 940, 560, 'var(--paper)', '', -2, 3, 'tblr'));
+  anim(p.lastElementChild, [{ transform: 'rotate(-2deg) scaleX(0)' }, { transform: 'rotate(-2deg) scaleX(1)' }], .05, .35, OUT);
+  add(p, tape(40, 540, -35, 's1')); add(p, tape(850, 540, 30, 's3'));
+  const logo = add(p, `<div class="abs" style="left:0;right:0;top:650px;text-align:center;z-index:5;direction:rtl">${ransom('אסיף', 230)}</div>`);
+  slapLetters(logo, .5, BEAT, s);
+  const sub = add(p, torn(80, 1180, 920, 120, 'var(--ink)', `<div style="color:#fff;font:800 60px var(--hand)">עוגיות · קינוחים · עוגות</div>`, 2, 8, 'tb', 6));
+  anim(sub, [{ transform: 'translateX(-1300px) rotate(-10deg)' }, { transform: 'rotate(2deg)' }], 2.5, .45, OUT); SFX.push([2.6, 'whoosh']);
+  const st = add(p, `<div class="abs" style="left:110px;top:1400px;z-index:8"><div class="stamp">בעבודת יד!</div></div>`);
+  stampIn(st.firstElementChild, 3.0, -12, s);
+  doodle(p, 'star', 820, 300, 150, 'var(--yellow)', 1.1, 10, 7, true);
+  doodle(p, 'sparkle', 110, 1660, 120, '#fff', 1.6, 0, 6, true);
+  doodle(p, 'heart', 800, 1720, 140, 'var(--rose)', 3.3, -10, 7, true);
+  const ck = add(p, `<div class="abs sticker" style="left:700px;top:1420px;z-index:9"><div class="disc" style="width:250px;height:250px"><img src="img/menu-lotus.jpg"></div></div>`);
+  popIn(ck, 2.1, 12);
+  const ck2 = add(p, `<div class="abs sticker" style="left:90px;top:300px;z-index:9"><div class="disc" style="width:220px;height:220px"><img src="img/menu-mm.jpg"></div></div>`);
+  popIn(ck2, 2.3, -10);
+}
+
+/* ============ S1 · 4–8 melty ============ */
+{
+  const p = addScene(4, 'lined', 'right'); const s = sceneOf(p);
+  const pol = add(p, `<div class="pol" style="left:90px;top:130px;width:640px;height:860px;z-index:3"><img src="img/halfhalf-break.jpg" style="object-position:50% 45%"><div class="cap">חצי־חצי 🍫</div></div>`);
+  slap(pol, 4.4, -4, s);
+  add(p, tape(300, 100, -6, 's2', 240));
+  const t1 = add(p, `<div class="abs marker" style="right:90px;top:1060px;font-size:130px;color:var(--ink);z-index:4">קראנצ׳י</div>`);
+  slap(t1, 5.0, -3, s, 'tap');
+  const t2 = add(p, `<div class="abs marker" style="right:150px;top:1220px;font-size:76px;color:var(--ink);z-index:4">בחוץ...</div>`);
+  slap(t2, 5.4, 2, null, 'tap');
+  const t3 = add(p, torn(90, 1380, 880, 220, 'var(--rose)', `<div style="color:#fff;font:400 124px var(--bubble)">נמסה בפנים!</div>`, -4, 6, 'tblr', 5));
+  slap(t3, 6.0, -4, s);
+  doodle(p, 'arrow', 760, 820, 230, 'var(--ink)', 6.7, 250, 5, false, .4);
+  const em = add(p, `<div class="abs emo" style="left:440px;top:1650px;font-size:170px;z-index:6">🤤</div>`);
+  popIn(em, 7.1, 10);
+  doodle(p, 'spark', 820, 90, 140, 'var(--orange)', 5.3, 0, 6);
+}
+
+/* ============ S2 · 8–12 collage ============ */
+{
+  const p = addScene(8, 'grid', 'up'); const s = sceneOf(p);
+  const shots = [['lemon-hand', 70, 110, 500, 640, -6, 'פאי לימון 🍋', 's2'], ['lotus-top', 520, 560, 500, 640, 5, 'לוטוס 🤎', 's1'], ['lotus-break', 80, 1010, 500, 640, -3, 'ומבפנים 😍', 's4']];
+  shots.forEach(([img, x, y, w, hh, r, cap, ts], i) => {
+    const pol = add(p, `<div class="pol" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;z-index:${3 + i}"><img src="img/${img}.jpg"><div class="cap">${cap}</div></div>`);
+    slap(pol, 8.4 + i * BEAT * 2, r, s);
+    const tp = add(p, tape(x + w / 2 - 95, y - 26, r * 2 + (i % 2 ? 8 : -8), ts)); tp.style.zIndex = 10;
+    anim(tp, [{ opacity: 0, transform: `rotate(${r * 2}deg) scaleX(0)` }, { opacity: .88, transform: `rotate(${r * 2}deg) scaleX(1)` }], 8.65 + i * BEAT * 2, .2, OUT);
+  });
+  const bn = add(p, torn(90, 1730, 900, 130, 'var(--yellow)', `<div style="font:800 58px var(--hand);color:var(--ink)">כל עוגייה – יצירה קטנה ✨</div>`, 1.5, 6, 'tb', 12));
+  slap(bn, 10.6, 1.5, s);
+  doodle(p, 'heart', 780, 1300, 170, 'var(--red)', 11.0, -12, 7, true);
+  doodle(p, 'star', 800, 160, 150, 'var(--orange)', 11.3, 12, 7, true);
+}
+
+/* ============ S3 · 12–16.5 menu stickers ============ */
+{
+  const p = addScene(12, 'pinky', 'left'); const s = sceneOf(p);
+  const ttl = add(p, `<div class="abs" style="left:0;right:0;top:110px;text-align:center;z-index:5;direction:rtl">${ransom('התפריט', 120, 3)}</div>`);
+  slapLetters(ttl, 12.3, .1, s);
+  const items = [['menu-lotus', 'לוטוס'], ['menu-lemon', 'פאי לימון'], ['menu-halfhalf', 'חצי־חצי'], ['menu-kinder', 'קינדר'], ['menu-caramel', 'קרמבל קינמון'], ['menu-mm', 'M&M']];
+  const labelCols = ['var(--ink)', 'var(--red)', '#2a6fdb', 'var(--ink)', '#1f9d6b', 'var(--red)'];
+  items.forEach(([img, name], i) => {
+    const col = i % 2, row = Math.floor(i / 2);
+    const x = col ? 120 : 640, y = 400 + row * 400, r = R(-8, 8);
+    const st = add(p, `<div class="abs sticker" style="left:${x}px;top:${y}px;z-index:4"><div class="disc" style="width:280px;height:280px"><img src="img/${img}.jpg"></div></div>`);
+    popIn(st, 13.0 + i * BEAT * .5, r);
+    anim(st.firstElementChild, [{ rotate: '0deg' }, { rotate: `${i % 2 ? -25 : 25}deg` }], 13.0, 3.5, 'linear');
+    const lb = add(p, `<div class="abs" style="left:${x - 40}px;top:${y + 260}px;width:360px;text-align:center;z-index:6"><span class="label" style="background:${labelCols[i]};font-size:38px">${name}</span></div>`);
+    anim(lb.firstElementChild, [{ clipPath: 'inset(0 0 0 100%)', transform: `rotate(${-r / 2}deg)` }, { clipPath: 'inset(0 0 0 0)', transform: `rotate(${-r / 2}deg)` }], 13.2 + i * BEAT * .5, .25, 'linear');
+  });
+  const tag = add(p, `<div class="abs" style="left:390px;top:1620px;z-index:9;width:330px;height:190px;background:var(--yellow);border-radius:14px 60px 60px 14px;display:grid;place-items:center;box-shadow:4px 10px 18px rgba(0,0,0,.3)">
+      <div style="position:absolute;right:28px;top:78px;width:34px;height:34px;border-radius:50%;background:#ffd2dd;box-shadow:inset 0 2px 4px rgba(0,0,0,.3)"></div>
+      <div style="font:700 130px var(--tall);color:var(--ink);margin-right:40px;direction:ltr">₪15</div></div>`);
+  anim(tag, [{ transform: 'translateY(-900px) rotate(40deg)' }, { transform: 'rotate(-14deg)', offset: .6 }, { transform: 'rotate(-4deg)', offset: .8 }, { transform: 'rotate(-8deg)' }], 15.2, .7, 'cubic-bezier(.5,0,.4,1)');
+  SFX.push([15.55, 'slap']);
+  const sub = add(p, `<div class="abs marker" style="left:90px;top:1700px;font-size:44px;color:var(--ink);z-index:9;transform:rotate(-6deg)">לכל עוגייה!</div>`);
+  popIn(sub, 15.7, -6);
+}
+
+/* ============ S4 · 16.5–20.5 more than cookies ============ */
+{
+  const p = addScene(16.5, 'kraft', 'down'); const s = sceneOf(p);
+  const ttl = add(p, torn(110, 90, 860, 160, 'var(--paper)', `<div style="font:400 92px var(--bubble);color:var(--ink)">ולא רק עוגיות!</div>`, -2, 5, 'tblr', 8));
+  slap(ttl, 16.85, -2, s);
+  const cards = [['babka', 'עוגת שמרים נוטלה', 70, 310, -7], ['cake', 'עוגות לאירועים 🎂', 500, 760, 4], ['boxes', 'מארזים למתנה 🎁', 80, 1230, -3]];
+  cards.forEach(([img, cap, x, y, r], i) => {
+    const pol = add(p, `<div class="pol" style="left:${x}px;top:${y}px;width:500px;height:560px;z-index:${3 + i}"><img src="img/${img}.jpg"><div class="cap" style="font-size:36px">${cap}</div></div>`);
+    slap(pol, 17.4 + i * BEAT * 1.5, r, s);
+    const tp = add(p, tape(x + 155, y - 24, r + (i % 2 ? 6 : -6), ['s3', 's1', 's2'][i])); tp.style.zIndex = 10;
+    anim(tp, [{ opacity: 0 }, { opacity: .88 }], 17.6 + i * BEAT * 1.5, .1, 'linear');
+  });
+  const st = add(p, `<div class="abs" style="left:610px;top:1480px;z-index:12"><div class="stamp" style="font-size:46px;background:rgba(255,255,255,.4);padding:10px 22px">בהזמנה<br>מראש</div></div>`);
+  stampIn(st.firstElementChild, 19.5, 6, s);
+  doodle(p, 'circle', 40, 290, 560, 'var(--red)', 19.9, 0, 3, false, .4);
+}
+
+/* ============ S5 · 20.5–24.5 how to order ============ */
+{
+  const p = addScene(20.5, 'lined', 'spin'); const s = sceneOf(p);
+  const ttl = add(p, `<div class="abs" style="left:0;right:0;top:110px;text-align:center;z-index:5;direction:rtl">${ransom('איך מזמינים?', 80, 1)}</div>`);
+  slapLetters(ttl, 20.85, .06, s);
+  const notes = [['var(--yellow)', '🍪', 'בוחרים', 'טעמים', 590, 330], ['#ffb3c9', '💬', 'שולחים', 'הודעה', 90, 760], ['var(--mint)', '😋', 'אוספים', 'ונהנים!', 590, 1190]];
+  notes.forEach(([bg, ic, a, b, x, y], i) => {
+    const r = [-4, 3, -2][i];
+    const n = add(p, `<div class="note noise" style="left:${x}px;top:${y}px;background:${bg};z-index:4">
+        <div class="emo" style="font-size:100px;line-height:1.2">${ic}</div>
+        <div class="marker" style="font-size:62px;line-height:1.15">${a}<br>${b}</div></div>`);
+    slap(n, 21.5 + i * BEAT * 1.5, r, s);
+    const num = add(p, `<div class="abs" style="left:${x + 300}px;top:${y - 40}px;z-index:8;width:110px;height:110px;display:grid;place-items:center;font:900 70px var(--body);color:var(--red)">${i + 1}</div>`);
+    popIn(num, 21.8 + i * BEAT * 1.5, 0, 'tap');
+    doodle(p, 'circle', x + 290, y - 50, 130, 'var(--red)', 21.85 + i * BEAT * 1.5, 0, 5, false, .3);
+    if (i < 2) doodle(p, 'arrow', i ? 520 : 400, y + 300, 170, 'var(--ink)', 22.1 + i * BEAT * 1.5, i ? 60 : 130, 6, false, .3);
+  });
+  const dl = add(p, torn(50, 1680, 980, 150, 'var(--ink)', `<div style="color:#fff;font:800 54px var(--hand)">⏰ הזמנות עד יום רביעי אחה״צ</div>`, -1.5, 7, 'tb', 9));
+  slap(dl, 23.7, -1.5, s);
+}
+
+/* ============ S6 · 24.5–30 end card ============ */
+{
+  const p = addScene(24.5, 'kraft', 'up'); const s = sceneOf(p);
+  add(p, torn(50, 330, 980, 1180, 'var(--paper)', '', 1, 2, 'tblr'));
+  const logo = add(p, `<div class="abs" style="left:0;right:0;top:420px;text-align:center;z-index:5;direction:rtl">${ransom('אסיף', 210, 2)}</div>`);
+  slapLetters(logo, 24.9, BEAT / 2, s);
+  const tag = add(p, `<div class="abs marker" style="left:0;right:0;top:730px;text-align:center;font-size:50px;line-height:1.3;z-index:5">עוגיות · קינוחים · עוגות<br>בהזמנה אישית</div>`);
+  popIn(tag, 26.0, 0, 'tap');
+  const ph = add(p, `<div class="abs" style="left:0;right:0;top:930px;text-align:center;z-index:6"><span style="display:inline-block;background:var(--rose);color:#fff;font:700 150px/1.05 var(--tall);padding:6px 40px;direction:ltr;letter-spacing:3px;box-shadow:6px 12px 20px rgba(0,0,0,.3)">051-5919945</span></div>`);
+  slap(ph.firstElementChild, 26.5, -2, s);
+  add(p, tape(110, 910, -20, 's2', 170)); add(p, tape(800, 910, 18, 's3', 170));
+  [...p.querySelectorAll('.tape')].slice(-2).forEach(tp => anim(tp, [{ opacity: 0 }, { opacity: .88 }], 26.8, .1, 'linear'));
+  const st = add(p, `<div class="abs" style="left:0;right:0;top:1200px;text-align:center;z-index:9"><div class="stamp" style="font-size:54px;border-color:#1f9d6b;color:#1f9d6b;line-height:1.2">הזמינו עכשיו<br>בוואטסאפ!</div></div>`);
+  stampIn(st.firstElementChild, 27.3, -3, s);
+  const discs = [['menu-lotus', 60, 70, 240, -10], ['menu-lemon', 780, 60, 230, 12], ['menu-halfhalf', 70, 1600, 240, 8], ['menu-mm', 770, 1620, 230, -8]];
+  discs.forEach(([img, x, y, sz, r], i) => { const d = add(p, `<div class="abs sticker" style="left:${x}px;top:${y}px;z-index:10"><div class="disc" style="width:${sz}px;height:${sz}px"><img src="img/${img}.jpg"></div></div>`); popIn(d, 25.9 + i * .15, r); });
+  doodle(p, 'heart', 470, 120, 140, 'var(--rose)', 26.2, 10, 7, true);
+  doodle(p, 'star', 470, 1660, 140, 'var(--yellow)', 26.3, -10, 7, true);
+  const cols = ['#ff4f8b', '#ffe25a', '#8fe3c8', '#8cc8ff', '#c9a7ff', '#ff9a3c'];
+  for (let i = 0; i < 60; i++) {
+    const c = add(p, `<div class="abs" style="left:${R(0, 1060)}px;top:-60px;width:${R(14, 30)}px;height:${R(8, 18)}px;background:${cols[i % 6]};z-index:20"></div>`);
+    const r0 = R(0, 360);
+    anim(c, [{ transform: `translateY(0) rotate(${r0}deg)` }, { transform: `translate(${R(-150, 150)}px, 2100px) rotate(${r0 + R(400, 900)}deg)` }], 27.4 + R(0, 1.6), R(1.8, 2.8), 'cubic-bezier(.3,0,.7,1)');
+  }
+  const fb = add(p, `<div class="abs" style="inset:0;background:#000;z-index:50"></div>`);
+  anim(fb, [{ opacity: 0 }, { opacity: 1 }], 29.4, .6, 'linear');
+}
+
+/* emoji with the color font */
+{
+  const re = /(\p{Extended_Pictographic}️?)/gu;
+  const w = document.createTreeWalker(stage, NodeFilter.SHOW_TEXT); const nodes = [];
+  while (w.nextNode()) { re.lastIndex = 0; if (re.test(w.currentNode.nodeValue)) nodes.push(w.currentNode); }
+  nodes.forEach(n => { if (n.parentElement.classList.contains('emo')) return; const sp = document.createElement('span'); sp.innerHTML = n.nodeValue.replace(re, '<span class="emo">$1</span>'); n.replaceWith(...sp.childNodes); });
+}
+
+window.DURATION = T;
+window.SFX = SFX.map(([t, k]) => [t * SPEED, k]).sort((a, b) => a[0] - b[0]);
+window.seek = (t) => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = t * 1000; }); };
+window.seek(0);
+</script>
+</body>
+</html>
