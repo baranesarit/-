@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Asif reel</title>
+<link rel="stylesheet" href="fonts/local.css">
+<style>
+  :root {
+    --cream: #fff6ee; --blush: #ffd9e2; --pink: #ff5c8a; --hot: #e6266b;
+    --choc: #3b1f14; --choc2: #6b3a22; --caramel: #d98a3d; --lemon: #ffe45e; --mint: #7be0c3;
+    --ig: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5);
+    --bubble: 'Rubik Bubbles', 'Rubik', sans-serif;
+    --tall: 'Karantina', 'Rubik', sans-serif;
+    --hand: 'Playpen Sans Hebrew', 'Rubik', sans-serif;
+    --body: 'Rubik', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: var(--body); }
+  .scene { position: absolute; inset: 0; overflow: hidden; }
+  .scene > .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, transparent 22%, transparent 55%, rgba(30,10,4,.75) 100%); }
+  .abs { position: absolute; }
+  .center-x { left: 0; right: 0; display: flex; justify-content: center; }
+
+  /* type */
+  .bub { font-family: var(--bubble); color: #fff; line-height: .95; text-align: center;
+         text-shadow: 0 8px 0 var(--choc), 0 18px 40px rgba(0,0,0,.45); }
+  .tall { font-family: var(--tall); font-weight: 700; line-height: 1; }
+  .hand { font-family: var(--hand); font-weight: 800; }
+  .pill { display: inline-block; padding: 18px 40px; border-radius: 26px; font: 800 64px/1.2 var(--hand);
+          background: var(--hot); color: #fff; box-shadow: 8px 10px 0 var(--choc); }
+  .pill.lemon { background: var(--lemon); color: var(--choc); }
+  .pill.mint { background: var(--mint); color: var(--choc); }
+  .pill.white { background: #fff; color: var(--choc); }
+  .words { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 .28em; direction: rtl; }
+  .words > span { display: inline-block; }
+
+  /* story chrome */
+  #chrome { position: absolute; top: 0; left: 0; right: 0; z-index: 50; padding: 34px 30px 0; }
+  #bars { display: flex; gap: 8px; direction: rtl; }
+  #bars div { flex: 1; height: 7px; border-radius: 7px; background: rgba(255,255,255,.4); overflow: hidden; }
+  #bars i { display: block; height: 100%; width: 0; background: #fff; }
+  .who { display: flex; align-items: center; gap: 18px; margin-top: 24px; color: #fff; font: 600 38px var(--body); text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+  .who .av { width: 82px; height: 82px; border-radius: 50%; padding: 5px; background: var(--ig); }
+  .who .av img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid #fff; }
+  .who small { font: 400 32px var(--body); opacity: .85; }
+
+  /* intro */
+  #s0 { background: radial-gradient(70% 45% at 85% 25%, #ffc2d4, transparent 60%), radial-gradient(60% 40% at 10% 80%, #ffe7b8, transparent 60%), var(--blush); }
+  .drip { position: absolute; top: 0; left: 0; width: 1080px; height: 330px; filter: drop-shadow(0 12px 0 rgba(59,31,20,.18)); }
+  .brand { font-family: var(--bubble); font-size: 330px; line-height: 1; color: var(--choc);
+           text-shadow: 10px 12px 0 #fff, 0 30px 60px rgba(230,38,107,.35); display: flex; justify-content: center; direction: rtl; }
+  .brand span { display: inline-block; }
+  .disc { position: absolute; border-radius: 50%; overflow: hidden; border: 12px solid #fff; box-shadow: 0 30px 60px rgba(59,31,20,.35); }
+  .disc img { width: 100%; height: 100%; object-fit: cover; }
+  .sprinkle { position: absolute; width: 34px; height: 12px; border-radius: 10px; }
+
+  /* menu */
+  #s4 { background: radial-gradient(60% 40% at 90% 10%, rgba(230,38,107,.55), transparent 60%), radial-gradient(60% 40% at 0% 100%, rgba(217,138,61,.5), transparent 60%), var(--choc); }
+  .mgrid { position: absolute; top: 540px; left: 50px; right: 50px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 20px; direction: rtl; }
+  .mitem { text-align: center; color: #fff; }
+  .mitem .disc { position: relative; width: 270px; height: 270px; margin: 0 auto 16px; border-width: 10px; }
+  .mitem b { font: 400 54px var(--bubble); white-space: nowrap; }
+  .burst { width: 420px; height: 420px; display: grid; place-items: center; text-align: center; background: var(--lemon); color: var(--choc);
+           clip-path: polygon(50% 0%, 61% 10%, 75% 6%, 79% 20%, 93% 25%, 89% 39%, 100% 50%, 89% 61%, 93% 75%, 79% 80%, 75% 94%, 61% 90%, 50% 100%, 39% 90%, 25% 94%, 21% 80%, 7% 75%, 11% 61%, 0% 50%, 11% 39%, 7% 25%, 21% 20%, 25% 6%, 39% 10%); }
+  .burst div { font: 700 160px/0.85 var(--tall); }
+  .burst small { display: block; font: 800 50px var(--hand); }
+
+  /* polaroid scenes */
+  .polbg { position: absolute; inset: 0; }
+  .pol { position: absolute; left: 90px; width: 900px; background: #fff; padding: 26px 26px 120px; box-shadow: 0 40px 80px rgba(0,0,0,.4); }
+  .pol img { width: 100%; height: 900px; object-fit: cover; display: block; }
+  .pol .cap { position: absolute; bottom: 22px; left: 0; right: 0; text-align: center; font: 800 58px var(--hand); color: var(--choc); }
+  .tape { position: absolute; top: -30px; left: 50%; width: 260px; height: 66px; margin-left: -130px; background: rgba(255,228,94,.85); transform: rotate(-5deg); }
+
+  /* outro */
+  #s8 { background: var(--ig); background-size: 300% 300%; }
+  .phone { font: 700 210px/1 var(--tall); color: #fff; direction: ltr; letter-spacing: 6px; text-shadow: 8px 10px 0 rgba(59,31,20,.4); }
+  .emoji { position: absolute; font-size: 90px; }
+  .emo { font-family: 'Noto Color Emoji', sans-serif; font-weight: 400; }
+  .flash { position: absolute; inset: 0; background: #fff; z-index: 40; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="chrome">
+    <div id="bars"></div>
+    <div class="who"><span class="av"><img src="img/halfhalf.jpg"></span><span>אסיף יחיאל</span><small>· 🍪 עכשיו</small></div>
+  </div>
+  <div class="flash" id="flash" style="opacity:0"></div>
+</div>
+
+<script>
+const stage = document.getElementById('stage');
+const T = 25;
+const h = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+const anim = (el, kf, start, dur, easing = 'ease-out', extra = {}) =>
+  el.animate(kf, { delay: start * 1000, duration: dur * 1000, fill: 'both', easing, ...extra });
+const POP = 'cubic-bezier(.3,1.7,.5,1)';
+// deterministic random
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+const popIn = (el, t, d = .55, rot = -3) => anim(el,
+  [{ transform: 'scale(0) rotate(-25deg)', opacity: 0 }, { transform: `scale(1.15) rotate(${rot + 6}deg)`, opacity: 1, offset: .6 }, { transform: `scale(1) rotate(${rot}deg)`, opacity: 1 }], t, d, POP);
+const wordsIn = (el, t, step = .12) => [...el.children].forEach((w, i) => anim(w,
+  [{ transform: 'translateY(120px) scale(.4) rotate(12deg)', opacity: 0 }, { transform: 'translateY(-14px) scale(1.08)', opacity: 1, offset: .65 }, { transform: 'none', opacity: 1 }], t + i * step, .5, POP));
+const split = (txt) => txt.split(' ').map(w => `<span>${w}</span>`).join('');
+const wobble = (el, t) => anim(el, [{ rotate: '-3deg' }, { rotate: '3deg' }], t, .7, 'ease-in-out', { iterations: 40, direction: 'alternate' });
+const kenburns = (img, t, dur, from = 1.18, to = 1, x = 0) => anim(img, [{ transform: `scale(${from}) translateX(${x}px)` }, { transform: `scale(${to}) translateX(0)` }], t, dur, 'ease-out');
+const show = (el, t) => anim(el, [{ visibility: 'hidden' }, { visibility: 'visible' }], t, .001, 'linear');
+
+// transitions (scene enters on top of the previous one)
+const TR = {
+  circle: (el, t) => anim(el, [{ clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(75% at 50% 50%)' }], t, .55, 'cubic-bezier(.7,0,.3,1)'),
+  zoom: (el, t) => anim(el, [{ transform: 'scale(1.6)', filter: 'blur(30px)', opacity: 0 }, { transform: 'scale(1)', filter: 'blur(0)', opacity: 1 }], t, .5, 'cubic-bezier(.2,.9,.3,1)'),
+  whip: (el, t) => anim(el, [{ transform: 'translateX(-110%) skewX(12deg)', filter: 'blur(26px)' }, { transform: 'translateX(4%) skewX(-3deg)', filter: 'blur(4px)', offset: .75 }, { transform: 'none', filter: 'blur(0)' }], t, .5, 'cubic-bezier(.7,0,.3,1)'),
+  wipe: (el, t) => anim(el, [{ clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)' }, { clipPath: 'polygon(-40% 0, 100% 0, 100% 100%, 0% 100%)' }], t, .55, 'cubic-bezier(.7,0,.3,1)'),
+  spin: (el, t) => anim(el, [{ transform: 'rotate(-90deg) scale(.2)', borderRadius: '50%', opacity: 0 }, { transform: 'rotate(0) scale(1)', borderRadius: '0%', opacity: 1 }], t, .55, 'cubic-bezier(.3,1.3,.5,1)'),
+};
+const flash = (t) => anim(document.getElementById('flash'), [{ opacity: 0 }, { opacity: .9, offset: .25 }, { opacity: 0 }], t, .35, 'linear');
+
+const scenes = [];
+const addScene = (id, start, end, html, tr) => {
+  const el = h(`<div class="scene" id="${id}">${html}</div>`);
+  stage.insertBefore(el, document.getElementById('chrome'));
+  show(el, start);
+  if (tr) TR[tr](el, start);
+  scenes.push([start, end]);
+  return el;
+};
+const photoScene = (id, start, end, img, tr, kb) => {
+  const el = addScene(id, start, end, `<img class="bg" src="img/${img}.jpg"><div class="shade"></div>`, tr);
+  kenburns(el.querySelector('.bg'), start, end - start + .6, ...(kb || []));
+  return el;
+};
+const add = (scene, html) => { const e = h(html); scene.appendChild(e); return e; };
+
+/* ============ S0 · INTRO 0–3 ============ */
+{
+  const s = addScene('s0', 0, 3, '');
+  const drip = add(s, `<svg class="drip" viewBox="0 0 1200 130" preserveAspectRatio="none"><path fill="#3b1f14" d="M0 0h1200v40c-30 0-30 50-58 50s-22-42-60-42-28 76-66 76-30-66-64-66-30 30-62 30-28-48-64-48-26 70-62 70-30-60-62-60-34 40-66 40-30-52-66-52-26 84-64 84-32-74-64-74-30 32-60 32-34-46-68-46-28 62-62 62-30-58-62-58-34 30-66 30-30-40-62-40-30 54-58 54S30 40 0 40z"/></svg>`);
+  anim(drip, [{ transform: 'translateY(-100%) scaleY(.6)' }, { transform: 'translateY(0) scaleY(1.15)', offset: .7 }, { transform: 'translateY(0) scaleY(1)' }], 0, .9, 'cubic-bezier(.5,0,.3,1)');
+  // sprinkles
+  const cols = ['#ff5c8a', '#ffe45e', '#7be0c3', '#4f5bd5', '#fa7e1e', '#fff', '#3b1f14'];
+  for (let i = 0; i < 46; i++) {
+    const sp = add(s, `<div class="sprinkle" style="left:${rnd() * 1060}px;top:-40px;background:${cols[i % cols.length]}"></div>`);
+    const r0 = rnd() * 360;
+    anim(sp, [{ transform: `translateY(0) rotate(${r0}deg)` }, { transform: `translateY(2050px) rotate(${r0 + 720}deg)` }], rnd() * 2.2, 1.6 + rnd() * 1.2, 'linear');
+  }
+  // floating cookies
+  const discs = [['menu-lotus', 330, 900, 400, 1, -1], ['menu-mm', 280, -60, 1380, -1, 1], ['menu-lemon', 250, 760, 1520, 1, 1], ['menu-kinder', 220, -40, 420, -1, -1]];
+  discs.forEach(([img, size, x, y, dx, dy], i) => {
+    const wrap = add(s, `<div class="abs" style="left:${x}px;top:${y}px;width:${size}px;height:${size}px"></div>`);
+    const d = h(`<div class="disc" style="inset:0"><img src="img/${img}.jpg"></div>`); wrap.appendChild(d);
+    anim(wrap, [{ transform: `translate(${dx * 700}px, ${dy * 500}px) scale(.3)` }, { transform: 'translate(0,0) scale(1)' }], .3 + i * .12, .8, POP);
+    anim(d, [{ transform: 'rotate(0)' }, { transform: `rotate(${dx * 360}deg)` }], 0, 5, 'linear', { iterations: 3 });
+    anim(wrap, [{ translate: '0 0' }, { translate: '0 -30px' }], 1.2, 1, 'ease-in-out', { iterations: 6, direction: 'alternate' });
+  });
+  const kick = add(s, `<div class="abs center-x" style="top:640px"><span class="pill white" style="font-size:52px">✨ נאפה באהבה ✨</span></div>`);
+  popIn(kick.firstElementChild, .35, .55, -4);
+  const brand = add(s, `<div class="abs center-x" style="top:760px"><div class="brand"><span>א</span><span>ס</span><span>י</span><span>ף</span></div></div>`);
+  [...brand.querySelectorAll('span')].forEach((l, i) => {
+    anim(l, [{ transform: 'translateY(-700px) scale(.5)', opacity: 0 }, { transform: 'translateY(30px) scale(1.1,.85)', opacity: 1, offset: .7 }, { transform: 'none', opacity: 1 }], .5 + i * .13, .6, 'cubic-bezier(.5,0,.4,1.3)');
+    anim(l, [{ translate: '0 0' }, { translate: '0 -26px' }], 1.6 + i * .1, .45, 'ease-in-out', { iterations: 5, direction: 'alternate' });
+  });
+  const sub = add(s, `<div class="abs center-x" style="top:1135px"><div class="words tall" style="font-size:150px;color:var(--choc)">${split('עוגיות · קינוחים · עוגות')}</div></div>`);
+  sub.querySelectorAll('span').forEach(w => { if (w.textContent === '·') w.style.color = 'var(--hot)'; });
+  wordsIn(sub.firstElementChild, 1.2, .12);
+}
+
+/* ============ S1 · half-half 3–5.6 ============ */
+{
+  const s = photoScene('s1', 3, 5.6, 'halfhalf-break', 'zoom', [1.25, 1.02]);
+  const a = add(s, `<div class="abs center-x" style="bottom:330px"><div class="words bub" style="font-size:170px">${split('שוברים...')}</div></div>`);
+  wordsIn(a.firstElementChild, 3.35);
+  const b = add(s, `<div class="abs center-x" style="bottom:170px"><span class="pill">ונמס בפנים 🤤</span></div>`);
+  popIn(b.firstElementChild, 3.9, .55, -4); wobble(b.firstElementChild, 4.5);
+  const c = add(s, `<div class="abs" style="top:300px;right:60px"><span class="pill lemon" style="font-size:50px">חצי שוקולד · חצי לבן</span></div>`);
+  popIn(c.firstElementChild, 4.3, .5, 5);
+}
+
+/* ============ S2 · lemon 5.6–8.2 ============ */
+{
+  const s = photoScene('s2', 5.6, 8.2, 'lemon-hand', 'circle', [1.2, 1]);
+  const a = add(s, `<div class="abs center-x" style="top:330px"><div class="words bub" style="font-size:160px">${split('פאי לימון 🍋')}</div></div>`);
+  wordsIn(a.firstElementChild, 5.95);
+  const b = add(s, `<div class="abs center-x" style="bottom:200px"><span class="pill lemon">מרנג קלוי בלהבה 🔥</span></div>`);
+  popIn(b.firstElementChild, 6.6, .55, 3); wobble(b.firstElementChild, 7.2);
+}
+
+/* ============ S3 · lotus 8.2–10.8 (split) ============ */
+{
+  const s = addScene('s3', 8.2, 10.8, `
+    <img class="bg" src="img/lotus-top.jpg">
+    <div class="abs" id="lotusIn" style="left:0;right:0;bottom:0;height:960px;overflow:hidden;border-top:14px solid #fff"><img src="img/lotus-break.jpg" style="width:100%;height:100%;object-fit:cover;object-position:50% 40%"></div>
+    <div class="shade"></div>`, 'whip');
+  kenburns(s.querySelector('.bg'), 8.2, 3, 1.15, 1, 40);
+  const half = s.querySelector('#lotusIn');
+  anim(half, [{ transform: 'translateY(100%)' }, { transform: 'translateY(-3%)', offset: .7 }, { transform: 'none' }], 9.15, .55, 'cubic-bezier(.6,0,.3,1)');
+  const a = add(s, `<div class="abs center-x" style="top:330px"><div class="words bub" style="font-size:200px">${split('לוטוס')}</div></div>`);
+  wordsIn(a.firstElementChild, 8.5);
+  const b = add(s, `<div class="abs center-x" style="top:900px;z-index:2"><span class="pill">ומבפנים... 😍</span></div>`);
+  popIn(b.firstElementChild, 9.5, .5, -5);
+}
+
+/* ============ S4 · menu 10.8–14 ============ */
+{
+  const s = addScene('s4', 10.8, 14, '', 'wipe');
+  const t = add(s, `<div class="abs center-x" style="top:270px"><div class="words bub" style="font-size:140px;text-shadow:0 8px 0 var(--hot)">${split('עוגיות מקושטות')}</div></div>`);
+  wordsIn(t.firstElementChild, 11.05);
+  const grid = add(s, `<div class="mgrid"></div>`);
+  [['menu-lotus', 'לוטוס'], ['menu-lemon', 'פאי לימון'], ['menu-halfhalf', 'חצי־חצי'], ['menu-kinder', 'קינדר'], ['menu-caramel', 'קרמבל קינמון'], ['menu-mm', 'M&amp;M']].forEach(([img, name], i) => {
+    const it = h(`<div class="mitem"><div class="disc"><img src="img/${img}.jpg"></div><b>${name}</b></div>`);
+    grid.appendChild(it);
+    popIn(it, 11.35 + i * .14, .55, i % 2 ? 3 : -3);
+    anim(it.querySelector('.disc'), [{ transform: 'rotate(0)' }, { transform: `rotate(${i % 2 ? -360 : 360}deg)` }], 11.5, 6, 'linear');
+  });
+  const bw = add(s, `<div class="abs center-x" style="top:1360px;z-index:3"><div class="burst"><div>₪15<small>לעוגייה!</small></div></div></div>`);
+  popIn(bw.firstElementChild, 12.4, .6, -14);
+  anim(bw.firstElementChild.firstElementChild, [{ transform: 'scale(1)' }, { transform: 'scale(1.1)' }], 13, .3, 'ease-in-out', { iterations: 4, direction: 'alternate' });
+}
+
+/* ============ S5 · babka 14–16.4 ============ */
+{
+  const s = addScene('s5', 14, 16.4, `<div class="polbg" style="background:radial-gradient(70% 50% at 50% 40%, #6b3a22, #3b1f14)"></div>`, 'spin');
+  const p = add(s, `<div class="pol" style="top:560px"><div class="tape"></div><img src="img/babka.jpg"><div class="cap">פרווה · בהזמנה מראש ❤️</div></div>`);
+  anim(p, [{ transform: 'translateY(1300px) rotate(25deg)' }, { transform: 'translateY(-20px) rotate(-6deg)', offset: .75 }, { transform: 'rotate(-4deg)' }], 14.2, .7, 'cubic-bezier(.4,0,.3,1)');
+  kenburns(p.querySelector('img'), 14.2, 2.5, 1.2, 1);
+  const a = add(s, `<div class="abs center-x" style="top:250px"><div class="words bub" style="font-size:118px;text-shadow:0 8px 0 var(--hot)">${split('עוגות שמרים נוטלה')}</div></div>`);
+  wordsIn(a.firstElementChild, 14.45);
+}
+
+/* ============ S6 · cake 16.4–18.8 ============ */
+{
+  const s = addScene('s6', 16.4, 18.8, `<div class="polbg" style="background:radial-gradient(70% 50% at 50% 40%, #fff, #ffd9e2)"></div>`, 'circle');
+  const p = add(s, `<div class="pol" style="top:600px"><div class="tape" style="background:rgba(123,224,195,.85)"></div><img src="img/cake.jpg"><div class="cap">מזל טוב! 🎉</div></div>`);
+  anim(p, [{ transform: 'scale(.2) rotate(-40deg)', opacity: 0 }, { transform: 'scale(1.06) rotate(6deg)', opacity: 1, offset: .7 }, { transform: 'rotate(3deg)', opacity: 1 }], 16.55, .7, POP);
+  kenburns(p.querySelector('img'), 16.55, 2.5, 1.2, 1);
+  const a = add(s, `<div class="abs center-x" style="top:250px"><div class="words bub" style="font-size:130px;color:var(--hot);text-shadow:0 8px 0 var(--choc)">${split('הזמנות גם לעוגות 🥰')}</div></div>`);
+  wordsIn(a.firstElementChild, 16.7);
+  const tags = [['ימי הולדת', 'lemon', 140, 1640, -6], ['בריתות', 'mint', 560, 1660, 5]];
+  tags.forEach(([txt, cls, x, y, r], i) => { const e = add(s, `<div class="abs" style="left:${x}px;top:${y}px;z-index:3"><span class="pill ${cls}" style="font-size:54px">${txt}</span></div>`); popIn(e.firstElementChild, 17.5 + i * .2, .5, r); });
+}
+
+/* ============ S7 · boxes 18.8–21 ============ */
+{
+  const s = photoScene('s7', 18.8, 21, 'boxes', 'whip', [1.25, 1.02]);
+  const a = add(s, `<div class="abs center-x" style="bottom:330px"><div class="words bub" style="font-size:150px">${split('מארזים למתנה 🎁')}</div></div>`);
+  wordsIn(a.firstElementChild, 19.1);
+  const b = add(s, `<div class="abs center-x" style="bottom:170px"><span class="pill mint">בודדים או מארז מעורב</span></div>`);
+  popIn(b.firstElementChild, 19.7, .5, 3);
+}
+
+/* ============ S8 · outro 21–25 ============ */
+{
+  const s = addScene('s8', 21, 25, '', 'zoom');
+  anim(s, [{ backgroundPosition: '0% 50%' }, { backgroundPosition: '100% 50%' }], 21, 4, 'linear');
+  const emo = ['🍪', '🍋', '🍫', '💖', '✨', '🎂'];
+  for (let i = 0; i < 26; i++) {
+    const e = add(s, `<div class="emoji" style="left:${rnd() * 1000}px;top:-140px">${emo[i % emo.length]}</div>`);
+    const r0 = rnd() * 80 - 40;
+    anim(e, [{ transform: `translateY(0) rotate(${r0}deg)`, opacity: .9 }, { transform: `translateY(2200px) rotate(${r0 + 260}deg)`, opacity: .9 }], 21.1 + rnd() * 3, 2 + rnd() * 1.2, 'cubic-bezier(.4,0,.8,.6)');
+  }
+  const a = add(s, `<div class="abs center-x" style="top:330px"><div class="words bub" style="font-size:210px">${split('רעבים?')}</div></div>`);
+  wordsIn(a.firstElementChild, 21.3);
+  anim(a.firstElementChild, [{ transform: 'rotate(-3deg) scale(1)' }, { transform: 'rotate(3deg) scale(1.06)' }], 22, .4, 'ease-in-out', { iterations: 8, direction: 'alternate' });
+  const b = add(s, `<div class="abs center-x" style="top:660px"><span class="pill white" style="font-size:58px">הזמנות עד יום רביעי אחה״צ ⏰</span></div>`);
+  popIn(b.firstElementChild, 21.9, .5, -3);
+  const lbl = add(s, `<div class="abs center-x" style="top:880px"><div class="hand" style="font-size:64px;color:#fff;text-shadow:0 4px 12px rgba(0,0,0,.3)">שלחו הודעה בוואטסאפ 💬</div></div>`);
+  popIn(lbl.firstElementChild, 22.4, .5, 0);
+  const ph = add(s, `<div class="abs center-x" style="top:1000px"><div class="phone">051-5919945</div></div>`);
+  anim(ph.firstElementChild, [{ transform: 'scale(3)', opacity: 0, filter: 'blur(20px)' }, { transform: 'scale(.94)', opacity: 1, filter: 'blur(0)', offset: .7 }, { transform: 'scale(1)', opacity: 1, filter: 'blur(0)' }], 22.7, .6, 'cubic-bezier(.2,.9,.3,1)');
+  flash(22.95);
+  const discs = add(s, `<div class="abs center-x" style="top:1340px;gap:30px"></div>`);
+  ['menu-lotus', 'menu-lemon', 'menu-halfhalf', 'menu-mm'].forEach((img, i) => {
+    const d = h(`<div class="disc" style="position:relative;width:200px;height:200px;border-width:8px"><img src="img/${img}.jpg"></div>`);
+    discs.appendChild(d);
+    popIn(d, 23.2 + i * .1, .5, 0);
+    anim(d.firstElementChild, [{ transform: 'rotate(0)' }, { transform: 'rotate(360deg)' }], 23.2, 4, 'linear');
+  });
+  const sig = add(s, `<div class="abs center-x" style="top:1610px"><div class="hand" style="font-size:96px;color:#fff;text-shadow:5px 6px 0 rgba(59,31,20,.35)">באהבה, אסיף יחיאל 🦋</div></div>`);
+  popIn(sig.firstElementChild, 23.7, .6, -2);
+}
+
+/* flashes on hard cuts */
+[3, 10.8, 14].forEach(flash);
+
+/* progress bars */
+const bars = document.getElementById('bars');
+scenes.forEach(([a, b]) => { const d = document.createElement('div'); d.innerHTML = '<i></i>'; bars.appendChild(d); anim(d.firstElementChild, [{ width: '0%' }, { width: '100%' }], a, b - a, 'linear'); });
+
+/* render emoji with the color emoji font, not the display fonts' own glyphs */
+{
+  const re = /(\p{Extended_Pictographic}\uFE0F?)/gu;
+  const walker = document.createTreeWalker(stage, NodeFilter.SHOW_TEXT);
+  const nodes = []; while (walker.nextNode()) if (re.test(walker.currentNode.nodeValue)) nodes.push(walker.currentNode);
+  nodes.forEach(n => { const span = document.createElement('span'); span.innerHTML = n.nodeValue.replace(re, '<span class="emo">$1</span>'); n.replaceWith(...span.childNodes); });
+}
+
+/* seek API for the renderer */
+window.DURATION = T;
+window.seek = (t) => { document.getAnimations().forEach(a => { a.pause(); a.currentTime = t * 1000; }); };
+window.seek(0);
+</script>
+</body>
+</html>
