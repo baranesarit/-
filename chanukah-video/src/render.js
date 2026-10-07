@@ -4,7 +4,7 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const [dir, out, stills] = process.argv.slice(2);
-const FPS = 30, DUR = 24;
+const FPS = 30, DUR = 31.5;
 (async () => {
   const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });

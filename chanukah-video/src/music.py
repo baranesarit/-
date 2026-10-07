@@ -1,7 +1,7 @@
 import numpy as np, wave, sys
 
 SR = 44100
-DUR = 24.0
+DUR = 31.5
 BPM = 128
 B = 60 / BPM          # beat
 BAR = 4 * B
@@ -154,24 +154,30 @@ addst(1.40, impact(), 0.7)
 addst(2 * BAR - 1.5, riser(1.5), 1.0)
 
 # main (bars 2-11)
-for bar in range(2, 12):
+for bar in range(2, 16):
     ph = (bar - 2) % 8
     groove(bar * BAR, prog[ph])
     play_melody(bar * BAR, ph)
-    if bar in (2, 4, 6, 8, 10):
+    if bar in (2, 4, 6, 8, 10, 12, 14):
         addst(bar * BAR, noise(2.0, 1.6, 1), 0.22)          # crash on every scene change
-    if bar in (3, 5, 7, 9):
+    if bar in (3, 5, 7, 9, 11, 13):
         addst((bar + 1) * BAR - 1.0, riser(1.0), 0.8)
-addst(8 * BAR + 0.05, impact(), 0.6)                     # "נס גדול היה פה"
+addst(6 * BAR + 0.1, impact(), 0.5)
+addst(10 * BAR + 2.0, impact(), 0.6)
+addst(10 * BAR + 2.4, impact(), 0.6)
+addst(4 * BAR, riser(1.2)[::-1], 0.6)  # dream whoosh                     # "נס גדול היה פה"
 
 # candle chimes (scene 2): eighth notes from bar 2 beat 2
 pent = [74, 76, 78, 81, 83, 86, 88, 90, 93]
 for j in range(9):
-    st = 2 * BAR + B + j * B / 2
+    st = 2 * BAR + B * .5 + j * B * .3
     addst(st, tone(midi(pent[j] + 12), 1.2, "bell"), 0.22)
 
-# ending: final hit at bar 12 then ring out
-fin = 12 * BAR
+for j in range(7):
+    addst(10 * BAR + B * .5 + j * B / 2, tone(midi(pent[j] + 12), 1.2, "bell"), 0.22)
+addst(8 * BAR + 1.0, tone(midi(98), 2.0, "bell"), 0.3)  # jug sparkle
+# ending: final hit at bar 16 then ring out
+fin = 16 * BAR
 addst(fin, kick(), 1.0); addst(fin, impact(), 0.7); addst(fin, noise(3.0, 1.2, 1), 0.25)
 for n in [50, 57, 62, 65, 69, 74]:
     addst(fin, tone(midi(n), 1.5, "pad") , 0.35)
